@@ -114,12 +114,45 @@ function escapeHtml(value){
 return value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
+function normalizeReaderText(text){
+text=text.replace(/\uFFFE/g,"");
+text=text.replace(/\u00AD/g,"");
+text=text.replace(/O'ßrien/g,"O'Brien").replace(/Àmpleforth/g,"Ampleforth");
+text=text.replace(/\s+-\s+(?=[a-záéíóúüñ])/g," — ");
+text=text.replace(/([A-Za-zÁÉÍÓÚÜÑáéíóúüñ])-\s+(?=[a-záéíóúüñ])/g,"$1-");
+text=text.replace(/\s+([,.;:!?])/g,"$1");
+return text.replace(/[ \t]+/g," ").trim();
+}
+
+function splitReadableParagraphs(block){
+block=normalizeReaderText(block);
+if(block.length<1700) return [block];
+const sentences=block.match(/[^.!?…]+(?:[.!?…]+(?:[»”"'])?|$)/g)||[block];
+const chunks=[];
+let current="";
+for(const rawSentence of sentences){
+const sentence=rawSentence.trim();
+if(!sentence) continue;
+if(current && current.length>=750 && current.length+sentence.length>1250){
+chunks.push(current.trim());
+current=sentence;
+}else{
+current+=(current?" ":"")+sentence;
+}
+}
+if(current) chunks.push(current.trim());
+return chunks.length?chunks:[block];
+}
+
 function parseBook(text){
-const blocks=text.split(/\n\n+/).map(x=>x.trim()).filter(Boolean);
+text=normalizeReaderText(text);
+const blocks=text.split(/\n\s*\n+/).map(x=>x.trim()).filter(Boolean);
 let part="";
 let chapter=null;
 const result=[];
-for(const block of blocks){
+for(const rawBlock of blocks){
+const block=normalizeReaderText(rawBlock);
+if(!block) continue;
 if(/^PARTE (PRIMERA|SEGUNDA|TERCERA)$/.test(block)){
 part=block;
 continue;
@@ -129,16 +162,15 @@ chapter={id:"c"+(result.length+1),number:block.replace("CAPÍTULO ",""),part,par
 result.push(chapter);
 continue;
 }
-if(block==="APÉNDICE"){
+if(/^APÉNDICE$/.test(block)){
 chapter={id:"appendix",number:"",part:"APÉNDICE",appendix:true,paragraphs:[]};
 result.push(chapter);
 continue;
 }
-if(chapter) chapter.paragraphs.push(block);
+if(chapter) chapter.paragraphs.push(...splitReadableParagraphs(block));
 }
 return result.filter(c=>c.paragraphs.length);
 }
-
 function renderNav(){
 const nav=document.getElementById("chapterNav");
 let lastPart="";
