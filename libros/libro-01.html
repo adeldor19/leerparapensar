@@ -199,7 +199,7 @@ current=Math.max(0,Math.min(index,chapters.length-1));
 const c=chapters[current];
 document.getElementById("chapterPart").textContent=c.part;
 document.getElementById("chapterLabel").textContent=c.appendix?"Apéndice · Los principios de neolengua":`Capítulo ${c.number}`;
-document.getElementById("bookText").innerHTML=c.paragraphs.map(p=>`<p>${escapeHtml(p)}</p>`).join("");
+document.getElementById("bookText").innerHTML=c.paragraphs.map(p=>{const slogan=/^(LA GUERRA ES LA PAZ|LA LIBERTAD ES LA ESCLAVITUD|LA IGNORANCIA ES LA FUERZA)(?:\s+(LA GUERRA ES LA PAZ|LA LIBERTAD ES LA ESCLAVITUD|LA IGNORANCIA ES LA FUERZA))*$/.test(p);return `<p class="${slogan?"slogan":""}">${escapeHtml(p)}</p>`;}).join("");
 document.getElementById("currentRead").checked=readState.includes(c.id);
 document.getElementById("prevChapter").disabled=current===0;
 document.getElementById("prevChapterBottom").disabled=current===0;
