@@ -24,6 +24,32 @@
 <p>Antes de cada capítulo, lee <b>Fíjate en…</b>. Después, responde a <b>Para pensar</b> y guarda una idea para <b>compartir</b> en el club.</p>
 </aside>
 
+<section class="reader-panel" aria-label="Tu progreso de lectura">
+  <div class="progress-head">
+    <div><small>MI LECTURA</small><h2>¿Por dónde vas?</h2></div>
+    <strong><span id="progressCount">0</span> / 24 capítulos</strong>
+  </div>
+  <div class="progress-track"><div id="progressBar"></div></div>
+  <p id="progressText">Marca cada capítulo cuando lo hayas leído. Tu progreso se guarda en este dispositivo.</p>
+  <button class="reset-progress" id="resetProgress" type="button">Reiniciar progreso</button>
+</section>
+
+<section class="reader-intro">
+  <div>
+    <small>ANTES DE EMPEZAR</small>
+    <h2>Conoce el punto de partida</h2>
+    <p>No necesitas memorizar estos nombres. Solo úsalos como referencia mientras avanzas por la novela.</p>
+  </div>
+  <div class="character-grid">
+    <article><b>Winston Smith</b><span>Trabaja en el Ministerio de la Verdad y mantiene una relación conflictiva con el sistema en el que vive.</span></article>
+    <article><b>Julia</b><span>Trabaja en el Partido y desarrolla con Winston una relación que cambia su forma de vivir la situación.</span></article>
+    <article><b>O'Brien</b><span>Miembro del Partido con quien Winston establece una relación marcada por la confianza y la incertidumbre.</span></article>
+    <article><b>Syme</b><span>Compañero de Winston especializado en neolengua y en la elaboración de su diccionario.</span></article>
+    <article><b>Sr. Charrington</b><span>Propietario de una tienda donde Winston encuentra objetos relacionados con el pasado.</span></article>
+    <article><b>Emmanuel Goldstein</b><span>Figura asociada a la oposición al Partido y autor atribuido del libro que Winston llega a leer.</span></article>
+  </div>
+</section>
+
 <nav class="toc"><strong>Ir a una parte</strong><a href="#parte-primera">Primera</a><a href="#parte-segunda">Segunda</a><a href="#parte-tercera">Tercera</a><a href="#apendice">Apéndice</a></nav>
 
 <section class="part" id="parte-primera">
@@ -99,6 +125,9 @@ part3:[
 ]
 };
 
+const progressKey="leerparapensar-1984-progreso";
+const estado=JSON.parse(localStorage.getItem(progressKey)||"[]");
+
 function crearParte(id,datos){
 document.getElementById(id).innerHTML=datos.map(c=>`
 <details class="chapter">
@@ -108,11 +137,44 @@ document.getElementById(id).innerHTML=datos.map(c=>`
 <div class="think"><b>💭 Para pensar</b><p>${c[3]}</p></div>
 <div class="share"><b>🗣️ Para compartir</b><p>${c[4]}</p></div>
 </div>
+<label class="read-check"><input type="checkbox" data-chapter="${c[0]}"> <span>He leído este capítulo</span></label>
 </details>`).join("");
 }
+
 crearParte("part1",partes.part1);
 crearParte("part2",partes.part2);
 crearParte("part3",partes.part3);
+
+function actualizarProgreso(){
+const checks=[...document.querySelectorAll("[data-chapter]")];
+checks.forEach(ch=>ch.checked=estado.includes(ch.dataset.chapter));
+const total=checks.length;
+const leidos=checks.filter(ch=>ch.checked).length;
+document.getElementById("progressCount").textContent=leidos;
+document.getElementById("progressBar").style.width=(leidos/total*100)+"%";
+document.getElementById("progressText").textContent=
+leidos===0 ? "Marca cada capítulo cuando lo hayas leído. Tu progreso se guarda en este dispositivo." :
+leidos===total ? "¡Has terminado la lectura! Ahora prepara tu pregunta para el club." :
+`Has completado ${leidos} de ${total} capítulos. Sigue a tu ritmo.`;
+checks.forEach(ch=>ch.closest(".chapter").classList.toggle("read",ch.checked));
+}
+
+document.addEventListener("change",event=>{
+if(!event.target.matches("[data-chapter]")) return;
+const id=event.target.dataset.chapter;
+if(event.target.checked && !estado.includes(id)) estado.push(id);
+if(!event.target.checked) estado.splice(estado.indexOf(id),1);
+localStorage.setItem(progressKey,JSON.stringify(estado));
+actualizarProgreso();
+});
+
+document.getElementById("resetProgress").addEventListener("click",()=>{
+estado.length=0;
+localStorage.removeItem(progressKey);
+actualizarProgreso();
+});
+
+actualizarProgreso();
 </script>
 </body>
 </html>
