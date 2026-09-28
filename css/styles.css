@@ -31,3 +31,76 @@ main{max-width:1080px;margin:auto;padding:20px}.hero{padding:62px 0 52px;max-wid
 .character-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.character-grid article{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:14px}.character-grid b{display:block;font-family:Georgia,serif;font-size:1.05rem}.character-grid span{display:block;color:var(--muted);font-size:.88rem;margin-top:5px}
 .read-check{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);margin:0 18px;padding:12px 0;font-size:.84rem;font-weight:800;color:var(--muted);cursor:pointer}.read-check input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}.chapter.read{border-color:#b8c8b7}.chapter.read .chapter-number{background:#536653}
 @media(max-width:760px){.reader-intro{grid-template-columns:1fr}.character-grid{grid-template-columns:1fr}.progress-head{align-items:flex-start;flex-direction:column}.read-check{margin:0 14px}}
+
+/* LECTOR DIGITAL */
+.reader-main{max-width:1240px}
+.reader-hero{padding-bottom:28px}
+.reader-progress-top{margin:0 0 24px}
+.reader-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
+.reader-sidebar{position:sticky;top:74px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;max-height:calc(100vh - 96px);overflow:auto}
+.reader-sidebar-title{padding:4px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.reader-sidebar-title small,.nav-part{display:block;color:var(--accent);font-size:.7rem;font-weight:900;letter-spacing:.1em}
+.reader-sidebar-title strong{display:block;font:700 1.45rem Georgia,serif;margin-top:3px}
+.nav-part{margin:15px 4px 5px}
+.chapter-nav-item{width:100%;display:grid;grid-template-columns:34px 1fr 18px;align-items:center;gap:8px;border:0;background:transparent;border-radius:9px;padding:8px 6px;text-align:left;color:var(--ink);cursor:pointer}
+.chapter-nav-item:hover{background:var(--bg)}
+.chapter-nav-item span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg);font-size:.7rem;font-weight:900}
+.chapter-nav-item b{font-size:.82rem}
+.chapter-nav-item i{font-style:normal;color:#536653;opacity:0}
+.chapter-nav-item.is-read i{opacity:1}
+.chapter-nav-item.active{background:var(--ink);color:#fff}
+.chapter-nav-item.active span{background:#fff;color:var(--ink)}
+.chapter-nav-item.active i{color:#fff}
+.reader-sidebar .reset-progress{color:var(--muted);border-color:var(--line);width:100%;margin-top:16px}
+.reader-content{min-width:0}
+.reader-toolbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;margin-bottom:18px}
+.reader-toolbar>div{text-align:center}
+.reader-toolbar small{display:block;color:var(--accent);font-size:.7rem;font-weight:900;letter-spacing:.1em}
+.reader-toolbar strong{display:block;font:700 1.15rem Georgia,serif;margin-top:3px}
+.reader-toolbar button{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:10px 13px;border-radius:10px;font-weight:800;cursor:pointer}
+.reader-toolbar button:last-child{justify-self:end}
+.reader-toolbar button:disabled{opacity:.35;cursor:not-allowed}
+.book-text{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:clamp(28px,5vw,58px);box-shadow:0 6px 30px rgba(29,29,27,.04)}
+.book-text p{font-family:Georgia,"Times New Roman",serif;font-size:1.08rem;line-height:1.86;margin:0 0 1.25em;max-width:780px;margin-left:auto;margin-right:auto}
+.book-text p:first-child:first-letter{font-size:3.4em;float:left;line-height:.85;padding:7px 7px 0 0;font-weight:700;color:var(--accent)}
+.reader-loading,.reader-error{text-align:center;padding:70px 20px;color:var(--muted)}
+.reader-loading span{display:block;font-size:2rem;margin-bottom:10px}
+.reader-loading strong,.reader-error strong{display:block;color:var(--ink);font:700 1.25rem Georgia,serif}
+.reader-end{background:var(--paper);border:1px solid var(--line);border-top:0;border-radius:0 0 18px 18px;padding:16px 22px}
+.chapter-read-button{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:900;cursor:pointer}
+.chapter-read-button input{width:19px;height:19px;accent-color:var(--accent)}
+.reading-reflection{margin:22px 0;background:var(--accent-soft);border:1px solid var(--line);border-radius:18px;padding:22px}
+.reflection-label{color:var(--accent);font-size:.7rem;font-weight:900;letter-spacing:.12em}
+.reading-reflection h2{font:700 1.7rem Georgia,serif;margin:6px 0 14px}
+.reflection-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.reflection-grid>div{background:#fffdf9b8;border-radius:12px;padding:15px;display:flex;gap:10px;align-items:flex-start}
+.reflection-grid span{font-size:1.2rem}.reflection-grid strong{font-size:.92rem;line-height:1.45}
+.reader-toolbar-bottom{margin:22px 0 0}
+.reader-final{margin-top:60px}
+.reader-final textarea{display:block;width:100%;min-height:110px;resize:vertical;margin:20px 0 12px;padding:14px;border:1px solid #5b5853;border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+.reader-final button{border:0;background:#fff;color:var(--ink);padding:10px 14px;border-radius:9px;font-weight:900;cursor:pointer}
+.reader-final #questionSaved{display:inline-block;margin-left:10px;color:#d8d4ce;font-size:.85rem}
+@media(max-width:850px){
+.reader-layout{grid-template-columns:1fr}
+.reader-sidebar{position:relative;top:auto;max-height:none;order:0}
+.reader-content{order:1}
+.reader-sidebar nav{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.nav-part{grid-column:1/-1}
+.chapter-nav-item{grid-template-columns:28px 1fr;padding:6px}
+.chapter-nav-item span{width:26px;height:26px}
+.chapter-nav-item i{display:none}
+.chapter-nav-item b{font-size:.72rem}
+.reader-sidebar .reset-progress{margin-top:10px}
+}
+@media(max-width:600px){
+.reader-toolbar{grid-template-columns:1fr 1fr;gap:8px}
+.reader-toolbar>div{grid-column:1/-1;grid-row:1}
+.reader-toolbar button{font-size:.78rem}
+.reader-toolbar button:last-child{justify-self:stretch}
+.reader-toolbar button:first-child{justify-self:stretch}
+.book-text{padding:25px 18px}
+.book-text p{font-size:1rem;line-height:1.78}
+.reflection-grid{grid-template-columns:1fr}
+.reader-sidebar nav{grid-template-columns:repeat(3,1fr)}
+.reader-final{margin-top:42px}
+}
