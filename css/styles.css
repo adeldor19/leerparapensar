@@ -104,3 +104,6 @@ main{max-width:1080px;margin:auto;padding:20px}.hero{padding:62px 0 52px;max-wid
 .reader-sidebar nav{grid-template-columns:repeat(3,1fr)}
 .reader-final{margin-top:42px}
 }
+
+.book-text p{text-wrap:pretty;hyphens:auto}
+.book-text p.slogan{max-width:780px;margin:1.5em auto;padding:18px 20px;border-left:4px solid var(--accent);background:var(--accent-soft);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:900;line-height:1.65;letter-spacing:.02em}
